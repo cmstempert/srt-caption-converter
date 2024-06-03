@@ -1,5 +1,10 @@
-import file_handler_linux as fh
-
+'''
+    This module takes a filepath and filename as strings. It processes the
+    lines of text within the file such that each text line (not including
+    numeric indicators and time codes) is no more than 32 characters long.
+    It then saves the newly formatted text to a file in the same location as
+    the original file with the tag '-Formatted' appended to the filename.
+'''
 
 def clean_filename(filename: str):
     ''' Takes in filename string. Returns filename cleaned of ()s and spaces
@@ -81,7 +86,6 @@ def fix_chars(word: str):
 
     return word
 
-# split lines into 32 char or less each
 def split_lines(line: str):
     ''' Takes in line as string. If line > 32char, splits into multiple lines.
         Returns list of newlines.
@@ -161,6 +165,18 @@ def process_file(cleaned_file: list):
 
     return to_write
 
+def write_file(dir_path: str, text: list, new_filename: str):
+    ''' Takes directory path and filename as strings and file text as a list. Writes and saves
+        text to file in directory path.
+    '''
+    with open(dir_path + new_filename, 'w', encoding = "latin1") as f:
+
+        for line in text:
+            f.write(line)
+            f.write("\n")
+
+    f.close()
+
 def main(path: str, file: str):
     ''' Takes in filepath and file as strings. Calls functions to process files and write
         reformatted data to file.
@@ -169,7 +185,7 @@ def main(path: str, file: str):
     file_path = path + file
     cleaned_file = linebreak_file(file_path)
     new_file = process_file(cleaned_file)
-    fh.write_file(path, new_file, new_filename)
+    write_file(path, new_file, new_filename)
 
 
 if __name__ == '__main__':

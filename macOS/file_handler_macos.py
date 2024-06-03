@@ -1,7 +1,6 @@
-''' This module does two things:
-        (1) Checks user input (a Directory from the File Dialog) and returns
-            them to the GUI for display if they are eligible for processing.
-        (2) Saves processed text to new files.
+''' This module takes user input (a Directory from the File Dialog) and
+    returns file data (name, path) to the GUI for display if they are eligible
+    for processing.
 '''
 
 import os
@@ -74,18 +73,6 @@ def process_directory(dir_path: str):
     srt_list = filter_filetypes(files_list)
     new_srt_list = filter_formatted(srt_list)
     return new_srt_list, formatted_path
-
-def write_file(dir_path: str, text: list, new_filename: str):
-    ''' Takes directory path and filename as strings and file text as a list. Writes and saves
-        text to file in directory path.
-    '''
-    with open(dir_path + new_filename, 'w', encoding='latin1') as f:
-
-        for line in text:
-            f.write(line)
-            f.write("\n")
-
-    f.close()
 
 
 if __name__ == '__main__':
