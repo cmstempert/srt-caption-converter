@@ -31,8 +31,9 @@ def linebreak_file(file_path: str):
     '''
     cleaned_file = []
 
-    file = open(r"{}".format(file_path), 'r', encoding='utf8')
-    split_file = file.read().split("\n")
+    with open(r"{}".format(file_path), 'r', encoding='utf8') as f:
+        split_file = f.read().split("\n")
+    f.close()
 
     for line in split_file:
         cleaned_file.append(line.replace("\xa0", " "))
