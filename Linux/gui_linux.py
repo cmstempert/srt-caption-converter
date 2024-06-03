@@ -1,3 +1,8 @@
+'''
+Core module for CaptionConverter executable. Creates gui application window and calls file_handler
+and text_processor functionality at user prompting.
+'''
+
 import customtkinter
 from customtkinter import filedialog
 from tkinterdnd2 import DND_FILES
@@ -6,7 +11,9 @@ import text_processor_linux as tp
 
 
 # Creates label in scrollable frame
-def file_found_label(file, gridrow):
+def file_found_label(file: str, gridrow: int):
+    ''' Creates file label in text_box.
+    '''
     label = customtkinter.CTkLabel(
         master = text_box,
         text = file)
@@ -14,12 +21,16 @@ def file_found_label(file, gridrow):
 
 # Clears scrollable frame of all labels when 'Select' button is clicked
 def clear_text():
+    ''' Clears all label from text_box.
+    '''
     for widgets in text_box.winfo_children():
         widgets.destroy()
 
     multi_label.configure(text = "Select a directory")
 
 def radio_action():
+    ''' On radio button selection, maps/unmaps applicable widgets.
+    '''
     value = radio_var.get()
 
     if value == "Select Directory":
@@ -32,7 +43,9 @@ def radio_action():
         dnd_label.place(x = 140, y = 18)
 
 # Creates on-screen labels for each valid file detected
-def populate_file_labels(filtered_list, path):
+def populate_file_labels(filtered_list: list, path: list):
+    ''' Takes list of files and paths. Creates label for each file in text_box.
+    '''
     gridrow = 0
 
     if len(filtered_list) > 0:
@@ -49,7 +62,10 @@ def populate_file_labels(filtered_list, path):
         file_found_label("No SRT files found", gridrow)
         process_btn.configure(state = "disabled")
 
-def file_drop(event):
+def file_drop(event: list):
+    ''' Takes files from DragNDrop field then calls functions to filter for SRT files and render
+        labels in text_box.
+    '''
     global path_list
     global filtered_list
 
@@ -57,11 +73,10 @@ def file_drop(event):
     filtered_list, path_list = fh.dnd_file_strings(dnd_list)
     populate_file_labels(filtered_list, path_list)
 
-"""
-Function retrieves file list from directory, path, and calls
-function to create labels in scrollable frame
-"""
 def dir_search():
+    ''' Takes path selected by user FileDialog then calls functions to filter for SRT files and
+        render labels in text_box.
+    '''
     global path_list
     global filtered_list
 
@@ -74,7 +89,11 @@ def dir_search():
     populate_file_labels(filtered_list, path_list)
 
 # Function creates 'completed' label for each file processed
-def processed_label(gridrow):
+def processed_label(gridrow: int):
+    ''' Creates 'Completed' label for processed files and appends to existing found_file_label
+        in text_box 
+    '''
+
     label = customtkinter.CTkLabel(
         master = text_box,
         text_color = "green",
@@ -82,7 +101,10 @@ def processed_label(gridrow):
     label.grid(row = gridrow, column = 1, sticky = "nsew")
 
 # Function that calls text processor for each file in list and creates 'completed' label when done
-def ProcessFiles():
+def process_files():
+    ''' On 'Process Files' click, calls functions to process selected files and render
+        'Completed' labels
+    '''
     row_count = 1
     process_btn.configure(state = "disabled")
 
@@ -93,10 +115,9 @@ def ProcessFiles():
 
     dnd_list = []
 
-# Basic gui setup
+# Core window display setup
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
-
 root = customtkinter.CTk()
 root.geometry("600x300")
 root.minsize(width = 580, height = 330)
@@ -104,13 +125,17 @@ root.maxsize(width = 580, height = 330)
 root.title('SRT Caption Converter')
 customtkinter.DrawEngine.preferred_drawing_method = "circle_shapes"
 
-# Label with filler text before a directory/file is chosen
+dnd_list = []
+radio_var = customtkinter.StringVar(value="Drag & Drop")
+operation_qty = ["Drag & Drop", "Select Directory"]
+
+# Label that displays path selected through file dialog window
 multi_label = customtkinter.CTkLabel(
     master = root,
     text = "Select a directory",
     wraplength = 375)
 
-# Button for directory selection
+# Button for open file dialog window
 select_btn = customtkinter.CTkButton(
     master = root,
     text = "Select",
@@ -118,11 +143,7 @@ select_btn = customtkinter.CTkButton(
     width = 60
     )
 
-dnd_list = []
-radio_var = customtkinter.StringVar(value="Drag & Drop")
-operation_qty = ["Drag & Drop", "Select Directory"]
-
-# Radio button for single file operation
+# Radio button for drag 'n drop file operations
 radio_btn1 = customtkinter.CTkRadioButton(
     master = root,
     text = operation_qty[0],
@@ -134,7 +155,7 @@ radio_btn1 = customtkinter.CTkRadioButton(
 )
 radio_btn1.place(x = 10, y = 10)
 
-# Radio button for multiple file operations
+# Radio button for select directory operations
 radio_btn2 = customtkinter.CTkRadioButton(
     master = root,
     text = operation_qty[1],
@@ -162,7 +183,7 @@ process_btn = customtkinter.CTkButton(
     master = root,
     text = "Process File(s)",
     width = 160,
-    command = ProcessFiles,
+    command = process_files,
     state = "disabled")
 process_btn.place(x = 210, y = 60)
 
