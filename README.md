@@ -17,7 +17,7 @@ Change your file in any way beyond caption line lengths and encoding. Your seque
     * *Choose a Directory (all platforms)*: Clicking the "Select" button will open a file dialog. Navigate to the directory where your SRT file is stored. SRTCC will scan the selected directory for files with the extension '.srt' and display eligible files in the box below for your review.
     * *Drag & Drop (Linux only)*: Drag a file or group of files into the "Drag & Drop" box. SRTCC will evaluate the files for the '.srt' extension and display eligible files in the box below for your review.
 5. **Process Files** that have been selected. The screen will show "Completed" when the files are ready for use.
-![After processing files.](misc/srtcc-screenshot-selected.png)
+![After processing files](misc/srtcc-screenshot-processed.png)
 
 ## Planned Features
 * Ability to delete individual files that have been loaded into SRTCC. (Currently once a file has been loaded and displayed, clicking 'Process' will process that file. To remove it from the queue you must entirely reselect the directory/file/set of files. Clicking the 'Select' button to open the file dialog clears the file queue.)
