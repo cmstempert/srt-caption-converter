@@ -20,7 +20,7 @@ Change your file in any way beyond caption line lengths and encoding. Your seque
 ![After processing files.](misc/srtcc-screenshot-selected.png)
 
 ## Planned Features
-* Ability to delete individual files that have been loaded into SRTCC. (Currently once a file has been loaded and displayed, clicking 'Process' will process that file. To remove it from the queue you must entirely reselect the directory/file/set of files. Clicking the 'Select' button to open the file dialog clears the file queue.)
+* Ability to delete individual files that have been loaded into SRTCC. (Currently, the only way to remove a selected SRT file from the queue is to click the 'Select' directory button and open the file dialog, which will reset the entire queue.
 
 ## Repository Contents
 This repo contains all the necessary components to create the executable, including platform-specific scripts, requirements lists, PyInstaller spec files, and the latest build/dist directories.
