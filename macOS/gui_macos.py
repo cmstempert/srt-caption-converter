@@ -1,7 +1,7 @@
 import customtkinter
 from customtkinter import filedialog
-import file_handler as fh
-import text_processor as tp
+import file_handler_macos as fh
+import text_processor_macos as tp
 
 
 # Creates label in scrollable frame

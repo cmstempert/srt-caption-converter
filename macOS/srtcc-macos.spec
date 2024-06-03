@@ -2,10 +2,10 @@
 
 
 a = Analysis(
-    ['gui.py'],
+    ['gui_macos.py'],
     pathex=[],
     binaries=[],
-    datas=[("file_handler.py", "."), ("text_processor.py", ".")],
+    datas=[("file_handler_macos.py", "."), ("text_processor_macos.py", ".")],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

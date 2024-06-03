@@ -1,4 +1,4 @@
-import file_handler as fh
+import file_handler_macos as fh
 
 # clean up file name
 def clean_filename(filename):
