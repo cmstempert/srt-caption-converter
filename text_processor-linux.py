@@ -6,11 +6,11 @@ def clean_filename(filename):
 
     split = filename.split('.')
     fname = split[0]
-    
+
     if format_declaration in fname.lower():
         fname = fname.replace(format_declaration, "Formatted")
     else:
-        fname = ("{}{}".format(fname, "-Formatted"))
+        fname = "{}{}".format(fname, "-Formatted")
 
     extension = '.' + split[1]
     cleaned = fname.replace(' ', '-').replace('(', '').replace(')', '')
@@ -21,8 +21,8 @@ def clean_filename(filename):
 # break file into lines and clean up weird space characters
 def linebreak_file(file_path):
     cleaned_file = []
-    
-    file = open(file_path, 'r')
+
+    file = open(r"{}".format(file_path), 'r', encoding='utf8')
     split_file = file.read().split("\n")
 
     for line in split_file:
@@ -42,7 +42,7 @@ def test_line(cleaned_file, line_num):
         line = cleaned_file[line_num]
     except IndexError:
         return False, False, False, False
-    
+
     try:
         if int(line):
             slide = True
@@ -56,7 +56,7 @@ def test_line(cleaned_file, line_num):
             line_break = True
         else:
             text = True
-    
+
     return slide, timecode, line_break, text
 
 # replace non-latin characters
@@ -71,7 +71,7 @@ def fix_chars(word):
     for key in problem_chars:
         if key in word:
             word = word.replace(key, problem_chars[key])
-    
+
     return word
 
 # split lines into 32 char or less each
@@ -100,8 +100,8 @@ def split_lines(line):
 
 # processes raw file, return list to write to new file
 def process_file(cleaned_file):
-    timecode, clide, line_break, text = False, False, False, False
-    next_slide, next_timecode, next_linebreak, next_text = False, False, False, False
+    timecode, line_break = False, False
+    next_text = False
     line1, line2, combined = "", "", ""
     count = 0
     skip_next = False
@@ -116,7 +116,7 @@ def process_file(cleaned_file):
             count += 1
 
         else:
-            slide, timecode, line_break, text = test_line(cleaned_file, count)
+            slide, timecode, line_break, _ = test_line(cleaned_file, count)
 
             if slide:
                 to_write.append(line)
@@ -125,7 +125,7 @@ def process_file(cleaned_file):
             elif line_break:
                 pass
             else:
-                next_slide, next_timecode, next_linebreak, next_text = test_line(cleaned_file, count + 1)
+                _, _, _, next_text = test_line(cleaned_file, count + 1)
                 if next_text:
                     line1 = line.strip().split(" ")
                     line2 = cleaned_file[count + 1].strip().split(" ")
@@ -140,14 +140,14 @@ def process_file(cleaned_file):
                     if len(revline) != 0:
                         printline = " ".join(revline)
                         to_write.append(printline)
-                
+
                 to_write.append("\n")
 
                 skip_next = True
-            
-            count += 1    
-            slide, timecode, line_break, text = False, False, False, False
-            next_slide, next_timecode, next_linebreak, next_text = False, False, False, False
+
+            count += 1
+            slide, timecode, line_break, _ = False, False, False, False
+            _, _, _, next_text = False, False, False, False
 
     return to_write
 
