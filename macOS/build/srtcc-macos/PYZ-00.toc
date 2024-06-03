@@ -1,4 +1,5 @@
-('/Users/jessstempert/Desktop/DO NOT MOVE/build/srtcc-macos/PYZ-00.pyz',
+('/Users/jessstempert/Desktop/DO NOT '
+ 'MOVE/macOSbuildv010/build/srtcc-macos/PYZ-00.pyz',
  [('__future__',
    '/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/__future__.py',
    'PYMODULE'),
@@ -360,8 +361,9 @@
   ('email.utils',
    '/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/email/utils.py',
    'PYMODULE'),
-  ('file_handler',
-   '/Users/jessstempert/Desktop/DO NOT MOVE/file_handler.py',
+  ('file_handler_macos',
+   '/Users/jessstempert/Desktop/DO NOT '
+   'MOVE/macOSbuildv010/file_handler_macos.py',
    'PYMODULE'),
   ('fnmatch',
    '/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/fnmatch.py',
@@ -799,8 +801,9 @@
   ('tempfile',
    '/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/tempfile.py',
    'PYMODULE'),
-  ('text_processor',
-   '/Users/jessstempert/Desktop/DO NOT MOVE/text_processor.py',
+  ('text_processor_macos',
+   '/Users/jessstempert/Desktop/DO NOT '
+   'MOVE/macOSbuildv010/text_processor_macos.py',
    'PYMODULE'),
   ('textwrap',
    '/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/textwrap.py',

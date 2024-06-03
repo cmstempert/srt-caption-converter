@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='CaptionConverter',
+    name='CaptionConverter-v0.1.0-M',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
