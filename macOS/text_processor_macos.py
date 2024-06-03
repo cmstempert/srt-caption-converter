@@ -1,16 +1,19 @@
 import file_handler_macos as fh
 
-# clean up file name
+
 def clean_filename(filename):
+    ''' Takes in filename string. Returns filename cleaned of ()s and spaces
+        and tagged with '-Formatted' at the end.
+    '''
     format_declaration = "unformatted"
 
     split = filename.split('.')
     fname = split[0]
-    
+
     if format_declaration in fname.lower():
         fname = fname.replace(format_declaration, "Formatted")
     else:
-        fname = ("{}{}".format(fname, "-Formatted"))
+        fname = "{}{}".format(fname, "-Formatted")
 
     extension = '.' + split[1]
     cleaned = fname.replace(' ', '-').replace('(', '').replace(')', '')
@@ -18,20 +21,23 @@ def clean_filename(filename):
 
     return new_file
 
-# break file into lines and clean up weird space characters
 def linebreak_file(file_path):
+    ''' Takes in filepath. Reads file in filepath. Returns list of lines in file.
+    '''
     cleaned_file = []
-    
-    file = open(file_path, 'r')
+
+    file = open(file_path, 'r', encoding='utf8')
     split_file = file.read().split("\n")
 
     for line in split_file:
         cleaned_file.append(line.replace("\xa0", " "))
-    
+
     return cleaned_file
 
-# tests lines for type (slide, timecode, blank, text)
 def test_line(cleaned_file, line_num):
+    ''' Takes in file as list and line number. Check file line and following for type and returns
+        True for type.
+    '''
     timecode = False
     slide = False
     line_break = False
@@ -42,7 +48,7 @@ def test_line(cleaned_file, line_num):
         line = cleaned_file[line_num]
     except IndexError:
         return False, False, False, False
-    
+
     try:
         if int(line):
             slide = True
@@ -56,11 +62,12 @@ def test_line(cleaned_file, line_num):
             line_break = True
         else:
             text = True
-    
+
     return slide, timecode, line_break, text
 
-# replace non-latin characters
 def fix_chars(word):
+    ''' Takes in word. Replaces characters incompatible with Latin-1.
+    '''
     problem_chars = {
         "♪": "", # base character, replacement value
         "’": "'",
@@ -71,11 +78,13 @@ def fix_chars(word):
     for key in problem_chars:
         if key in word:
             word = word.replace(key, problem_chars[key])
-    
+
     return word
 
-# split lines into 32 char or less each
 def split_lines(line):
+    ''' Takes in line as string. If line > 32char, splits into multiple lines.
+    Returns list of newlines.
+    '''
     length = 0
     count = 0
     newlines = [[],[], [], []]
@@ -98,15 +107,15 @@ def split_lines(line):
 
     return newlines
 
-# processes raw file, return list to write to new file
 def process_file(cleaned_file):
-    timecode, clide, line_break, text = False, False, False, False
-    next_slide, next_timecode, next_linebreak, next_text = False, False, False, False
+    ''' Takes in list of file lines. Calls functions to format lines. Returns list of lines.
+    '''
+    timecode, line_break = False, False
+    next_text = False
     line1, line2, combined = "", "", ""
     count = 0
     skip_next = False
     rev_lines = [[], [], [], []]
-    rline_count = 0
     printline = ""
     to_write = []
 
@@ -125,7 +134,7 @@ def process_file(cleaned_file):
             elif line_break:
                 pass
             else:
-                next_slide, next_timecode, next_linebreak, next_text = test_line(cleaned_file, count + 1)
+                _, _, _, next_text = test_line(cleaned_file, count + 1)
                 if next_text:
                     line1 = line.strip().split(" ")
                     line2 = cleaned_file[count + 1].strip().split(" ")
@@ -140,24 +149,26 @@ def process_file(cleaned_file):
                     if len(revline) != 0:
                         printline = " ".join(revline)
                         to_write.append(printline)
-                
+
                 to_write.append("\n")
 
                 skip_next = True
-            
-            count += 1    
-            slide, timecode, line_break, text = False, False, False, False
-            next_slide, next_timecode, next_linebreak, next_text = False, False, False, False
+
+            count += 1
+            slide, timecode, line_break, _ = False, False, False, False
+            _, _, _, next_text = False, False, False, False
 
     return to_write
 
 def main(path, file):
+    ''' Takes in filepath and file as strings. Calls functions to process files and write
+        reformatted data to file.
+    '''
     new_filename = clean_filename(file)
     file_path = path + file
     cleaned_file = linebreak_file(file_path)
     new_file = process_file(cleaned_file)
     fh.write_file(path, new_file, new_filename)
-    return
 
 
 if __name__ == '__main__':
