@@ -1,3 +1,0 @@
-([('CaptionConverter',
-   '/Users/jessstempert/Desktop/DO NOT MOVE/dist/CaptionConverter',
-   'EXECUTABLE')],)
