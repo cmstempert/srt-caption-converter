@@ -9,10 +9,10 @@ SRTCC takes in an SRT file (or group of SRT files) and checks the text lines to 
 Change your file in any way beyond caption line lengths and encoding. Your sequencing and time codes will remain exactly as they are, as will the actual content of your captions (with the exception of substituting Latin-1 characters for equivalent UTF8 ones).
 
 ## How to Use SRTCC:
-1. **Download** the executable for your platform from the latest release. Linux (Ubuntu 22.04.3) and macOS (Sonoma) are currently supported. Previous versions of these platforms may also work, but have not been tested.
-2. **Extract** the executable from its compressed format.
-3. **Run** the file by double-clicking. (On macOS you may have to first move the file to the "Applications" directory before it will execute.)
-4. **Select Files** by either choosing a directory for it to scan for all present SRT files or by dragging and dropping files into the indicated field (not available on macOS).
+1. **Download** the source code from the latest [release](https://github.com/cmstempert/srt-caption-converter/releases).
+3. **Extract** the source doe from its compressed format. The executables are location in "build" folders of their respective platforms. Linux (Ubuntu 22.04.3) and macOS (Sonoma) are currently supported. Previous versions of these platforms may also work, but have not been tested.
+4. **Run** the file by double-clicking. (On macOS you may have to first move the file to the "Applications" directory before it will execute.)
+5. **Select Files** by either choosing a directory for it to scan for all present SRT files or by dragging and dropping files into the indicated field (not available on macOS).
 
    ![Files selected from directory](misc/srtcc-screenshot-select.png)
     * *Choose a Directory (all platforms)*: Clicking the "Select" button will open a file dialog. Navigate to the directory where your SRT file is stored. SRTCC will scan the selected directory for files with the extension '.srt' and display eligible files in the box below for your review.
