@@ -47,27 +47,40 @@ def test_line(cleaned_file: list, line_num: int):
     timecode = False
     slide = False
     line_break = False
-    text = False
+    text = []
     timecode_key = "-->"
 
     try:
         line = cleaned_file[line_num]
     except IndexError:
-        return False, False, False, False
+        return False, False, False, [False]
 
-    try:
-        if int(line):
-            slide = True
-    except ValueError:
-        pass
+    for x in range(10):
+        try:
+#            print(f"test_line try slide: {cleaned_file[line_num + x]}")
+            if int(cleaned_file[line_num + x]) and not text:
+                slide = True
+                break
+            else:
+                break
+        except ValueError:
+            pass
 
-    if slide is False:
-        if timecode_key in line:
-            timecode = True
-        elif line == "\n" or line == "":
-            line_break = True
-        else:
-            text = True
+        if slide is False:
+            if timecode_key in cleaned_file[line_num + x] and not text:
+                timecode = True
+                break
+            elif timecode_key in cleaned_file[line_num + x]:
+                break
+            elif cleaned_file[line_num + x] == "\n" or cleaned_file[line_num + x] == "" \
+                and not text:
+                line_break = True
+                break
+            elif cleaned_file[line_num + x] == "\n" or cleaned_file[line_num + x] == "":
+                break
+            else:
+                text.append(True)
+                print(f"testline text: {text}")
 
     return slide, timecode, line_break, text
 
@@ -94,7 +107,7 @@ def split_lines(line: str):
     '''
     length = 0
     count = 0
-    newlines = [[],[], [], []]
+    newlines = [[],[], [], [], []]
 
 #    print(f"line: {line}")
     split_line = line.strip().split(" ")
@@ -121,37 +134,44 @@ def process_file(cleaned_file: list):
     ''' Takes in list of file lines. Calls functions to format lines. Returns list of lines.
     '''
     timecode, line_break = False, False
-    next_text = False
-    line1, line2, combined = "", "", ""
-    count = 0
-    skip_next = False
+    line1, combined = "", ""
+    skip_next = [False]
     rev_lines = [[], [], [], []]
     printline = ""
     to_write = []
 
-    for line in cleaned_file:
+    for i, line in enumerate(cleaned_file):
+        print(f"Line: {i, line}")
         if skip_next:
-            skip_next = False
-            count += 1
+            del skip_next[0]
 
         else:
-            slide, timecode, line_break, _ = test_line(cleaned_file, count)
-
+            slide, timecode, line_break, text_test = test_line(cleaned_file, i)
+            print(f"{slide}, {timecode}, {line_break}, {text_test}")
             if slide:
+                print(f"{i}, slide")
                 to_write.append(line)
             elif timecode:
+                print(f"{i}, timecode")
                 to_write.append(line)
             elif line_break:
+                print("linebreak")
                 pass
             else:
-                _, _, _, next_text = test_line(cleaned_file, count + 1)
-                if next_text:
-                    line1 = line.strip().split(" ")
-                    line2 = cleaned_file[count + 1].strip().split(" ")
-                    combined = line1 + line2
+                _, _, _, next_text = test_line(cleaned_file, i)
+                print(f"process_file else: {i}, {line}")
+                if next_text[0]:
+                    combined = []
+                    for x, y in enumerate(next_text):
+                        line1 = cleaned_file[i + x].strip().split(" ")
+                        combined = combined + line1
+                    print(combined)
                     combined = " ".join(combined)
-                else:
-                    combined = line
+
+                    skip_next = next_text
+
+#                else:
+#                    combined = line
 
                 rev_lines = split_lines(combined)
 
@@ -162,9 +182,6 @@ def process_file(cleaned_file: list):
 
                 to_write.append("\n")
 
-                skip_next = True
-
-            count += 1
             slide, timecode, line_break, _ = False, False, False, False
             _, _, _, next_text = False, False, False, False
 
