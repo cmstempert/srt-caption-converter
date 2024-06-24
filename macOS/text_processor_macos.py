@@ -92,7 +92,11 @@ def fix_chars(word):
         "’": "'",
         "“": "\"",
         "”": "\"",
-        "…": "..."}
+        "…": "...",
+        "‘": "'",
+        "—": "-"
+
+    }
 
     for key in problem_chars:
         if key in word:
