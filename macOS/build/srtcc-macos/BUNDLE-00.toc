@@ -1,4 +1,4 @@
-([('CaptionConverter-v0.1.0-M',
+([('CaptionConverter-v0.1.2-M',
    '/Users/jessstempert/Desktop/DO NOT '
-   'MOVE/macOSv011/dist/CaptionConverter-v0.1.0-M',
+   'MOVE/macOSv012/dist/CaptionConverter-v0.1.2-M',
    'EXECUTABLE')],)
