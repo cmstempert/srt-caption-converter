@@ -133,6 +133,17 @@ def split_lines(line):
 
     return newlines
 
+def check_skip_line(skip_next: list):
+    try:
+        if skip_next[0]:
+            del skip_next[0]
+            return True, skip_next
+        else:
+            del skip_next[0]
+            return False, skip_next
+    except IndexError:
+        return False, skip_next
+
 def process_file(cleaned_file):
     ''' Takes in list of file lines. Calls functions to format lines. Returns list of lines.
     '''
@@ -145,9 +156,11 @@ def process_file(cleaned_file):
 
     for i, line in enumerate(cleaned_file):
         print(f"Line: {i, line}")
-        if skip_next:
-            del skip_next[0]
 
+        skip, skip_next = check_skip_line(skip_next)
+
+        if skip:
+            continue
         else:
             slide, timecode, line_break, text_test = test_line(cleaned_file, i)
             print(f"{slide}, {timecode}, {line_break}, {text_test}")
