@@ -31,7 +31,7 @@ def linebreak_file(file_path):
     '''
     cleaned_file = []
 
-    with open(file_path, 'r', encoding='utf8') as f:
+    with open(file_path, 'r', encoding='utf-8-sig') as f:
         split_file = f.read().split("\n")
     f.close()
 
@@ -94,8 +94,7 @@ def fix_chars(word):
         "”": "\"",
         "…": "...",
         "‘": "'",
-        "—": "-"
-
+        "—": "-",
     }
 
     for key in problem_chars:
